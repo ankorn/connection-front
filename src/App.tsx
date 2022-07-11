@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [state, setState] = useState();
+  const [state, setState] = useState<string>("");
 
   useEffect(() => {
     const fetchState = async () => {
-      const newState = await fetch("/");
-      console.log(newState);
-      // setState(newState);
+      const response = await fetch("/test");
+      const result = await response.text();
+      setState(result);
     };
 
     fetchState();
