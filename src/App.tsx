@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useQuery, gql } from "@apollo/client";
+
 import "./App.css";
 
+const GET_USER = gql`
+  query GetUser {
+    name
+  }
+`;
+
 function App() {
-  const [state, setState] = useState<string>("");
+  const { loading, error, data: user } = useQuery(GET_USER);
 
-  useEffect(() => {
-    const fetchState = async () => {
-      const response = await fetch("/test");
-      const result = await response.text();
-      setState(result);
-    };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
 
-    fetchState();
-  }, []);
-
-  return <div className="App">{state ? state : "Loading state..."}</div>;
+  return <div className="App">{user}</div>;
 }
 
 export default App;
